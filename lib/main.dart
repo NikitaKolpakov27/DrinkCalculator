@@ -167,8 +167,8 @@ class _MyApp extends State<MyApp> {
     final value2 = _secondSliderValue; // 0
 
     // Объемы:
-    final vol1 = 50;
-    final vol2 = 150;
+    final vol1 = _firstVolume;
+    final vol2 = _secondVolume;
     final total_vol = vol1 + vol2;
 
     final result = ( (value1 * vol1) + (value2 * vol2) ) / total_vol;
