@@ -36,12 +36,11 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        // use either event stream or simple method call
         onPressed: () => bloc?.inEvent.add(MainBlocEvent.increaseFirstSliderValue),
         //onPressed: () => bloc.onIncrementButton(),
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

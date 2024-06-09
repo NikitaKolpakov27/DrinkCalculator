@@ -34,6 +34,7 @@ class _MyApp extends State<MyApp> {
   Widget build(BuildContext context) {
 
     final MainBloc? bloc = BlocProvider.of(context);
+    // final MainBloc bloc = MainBloc();
 
     _context = context;
     return MaterialApp(
@@ -82,29 +83,49 @@ class _MyApp extends State<MyApp> {
 
                       Column(
                         children: [
-                          Text('Объём'),
-                          Slider(
-                            value: _firstVolume,
-                            max: 200,
-                            divisions: 25,
-                            label: _firstVolume.round().toString(),
-                            onChanged: (double value) {
-                              setState(() {
-                                _firstVolume = value;
-                              });
-                            },
-                          ),
-                          Text('Объём: ${_firstVolume.ceil()}'),
+                          StreamBuilder(
+                              stream: bloc?.outFirstVolume,
+                              builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                return Column(
+                                  children: [
+                                    Text('Объём'),
+                                    Slider(
+                                      value: _firstVolume,
+                                      max: 200,
+                                      divisions: 25,
+                                      label: _firstVolume.round().toString(),
+                                      // onChanged: (double value) {
+                                      //   setState(() {
+                                      //     _firstVolume = value;
+                                      //   });
+                                      // },
+                                      onChanged: (double value) {
+                                        bloc?.inFirstVolumeEvent.add(MainBlocEvent.increaseFirstSliderVolume);
+                                      },
+                                      // onChanged: (volume) => bloc?.inFirstVolumeEvent.add(MainBlocEvent.increaseFirstSliderVolume),
+                                    ),
+                                    Text('Объём: ${_firstVolume.ceil()}')
+                                    // Text('Объём: ${bloc?.outFirstVolume.toString()}')
+                                  ],
+                                );
+                              }
+                          )
+                          // Text('Объём'),
+                          // Slider(
+                          //   value: _firstVolume,
+                          //   max: 200,
+                          //   divisions: 25,
+                          //   label: _firstVolume.round().toString(),
+                          //   // onChanged: (double value) {
+                          //   //   setState(() {
+                          //   //     _firstVolume = value;
+                          //   //   });
+                          //   // },
+                          //   onChanged: (volume) => bloc?.inFirstVolumeEvent.add(MainBlocEvent.increaseFirstSliderVolume),
+                          // ),
+                          // Text('Объём: ${_firstVolume.ceil()}'),
                         ],
                       ),
-                      StreamBuilder(
-                          stream: bloc?.outFirstValue,
-                          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-                            return Text(
-                              "${snapshot.data ?? 0}"
-                            );
-                          }
-                      )
                     ],
                   ),
 
@@ -132,11 +153,12 @@ class _MyApp extends State<MyApp> {
                             max: 100,
                             divisions: 25,
                             label: _secondSliderValue.round().toString(),
-                            onChanged: (double value) {
-                              setState(() {
-                                _secondSliderValue = value;
-                              });
-                            },
+                            // onChanged: (double value) {
+                            //   setState(() {
+                            //     _secondSliderValue = value;
+                            //   });
+                            // },
+                            onChanged: (value) => bloc?.inSecondValueEvent.add(MainBlocEvent.increaseSecondSliderVolume),
                           ),
                           Text('Крепость: ${_secondSliderValue.ceil()}'),
                         ],

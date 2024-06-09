@@ -32,14 +32,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    // create both bloc and screen
     final MainBloc bloc = MainBloc();
     final MainScreen screen = MainScreen();
 
     // then use them to create provider instance
     return BlocProvider(
-      child: screen,
       bloc: bloc,
+      child: screen,
     );
   }
 }
