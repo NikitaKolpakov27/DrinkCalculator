@@ -9,9 +9,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  double _slideValue = 0;
+
   @override
   Widget build(BuildContext context) {
     final MainBloc? bloc = BlocProvider.of(context);
+
 
     return Scaffold(
       appBar: AppBar(
@@ -28,19 +31,29 @@ class _MainScreenState extends State<MainScreen> {
               stream: bloc?.outFirstValue,
               builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                 return Text(
-                  "${snapshot.data ?? 0}",
+                  "Bla bla ${snapshot.data}",
                 );
               },
+            ),
+            Slider(
+                value: _slideValue,
+                max: 100,
+                divisions: 20,
+                onChanged: (value) {
+                  bloc?.inEvent.add(value);
+                  setState(() {
+                    _slideValue = value;
+                  });
+                },
             )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => bloc?.inEvent.add(MainBlocEvent.increaseFirstSliderValue),
-        //onPressed: () => bloc.onIncrementButton(),
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => bloc?.inEvent.add(MainBlocEvent.increaseFirstSliderValue),
+      //   tooltip: 'Increment',
+      //   child: Icon(Icons.add),
+      // ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:drnik_calculator/bloc/screen/new_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:drnik_calculator/bloc/common/bloc_provider.dart';
 import 'package:drnik_calculator/bloc/main_bloc.dart';
+import 'package:drnik_calculator/bloc/screen/main_screen.dart';
 
 void main() => runApp(MyApp());
 

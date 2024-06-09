@@ -41,27 +41,27 @@ class MainBloc extends BlocBase {
 
   // Крепость
   final StreamController<double> _firstValueController = StreamController<double>();
-  final StreamController<MainBlocEvent> _firstValueEvent =
-      StreamController<MainBlocEvent>();
+  final StreamController<double> _firstValueEvent =
+      StreamController<double>();
 
   Sink<double> get _inFirstValue => _firstValueController.sink;
   Stream<double> get outFirstValue => _firstValueController.stream;
 
-  Sink<MainBlocEvent> get inEvent => _firstValueEvent.sink;
-  Stream<MainBlocEvent> get _outEvent => _firstValueEvent.stream;
+  Sink<double> get inEvent => _firstValueEvent.sink;
+  Stream<double> get _outEvent => _firstValueEvent.stream;
 
 
 
   // Объем:
   final StreamController<double> _firstVolumeController = StreamController<double>();
-  final StreamController<MainBlocEvent> _firstVolumeEvent =
-  StreamController<MainBlocEvent>();
+  final StreamController<double> _firstVolumeEvent =
+  StreamController<double>();
 
   Sink<double> get _inFirstVolume => _firstVolumeController.sink;
   Stream<double> get outFirstVolume => _firstVolumeController.stream;
 
-  Sink<MainBlocEvent> get inFirstVolumeEvent => _firstVolumeEvent.sink;
-  Stream<MainBlocEvent> get _outFirstVolumeEvent => _firstVolumeEvent.stream;
+  Sink<double> get inFirstVolumeEvent => _firstVolumeEvent.sink;
+  Stream<double> get _outFirstVolumeEvent => _firstVolumeEvent.stream;
 
   /*
   *
@@ -71,40 +71,92 @@ class MainBloc extends BlocBase {
 
   // Крепость
   final StreamController<double> _secondValueController = StreamController<double>();
-  final StreamController<MainBlocEvent> _secondValueEvent =
-  StreamController<MainBlocEvent>();
+  final StreamController<double> _secondValueEvent =
+  StreamController<double>();
 
   Sink<double> get _inSecondValue => _secondValueController.sink;
   Stream<double> get outSecondValue => _secondValueController.stream;
 
-  Sink<MainBlocEvent> get inSecondValueEvent => _secondValueEvent.sink;
-  Stream<MainBlocEvent> get _outSecondValueEvent => _secondValueEvent.stream;
+  Sink<double> get inSecondValueEvent => _secondValueEvent.sink;
+  Stream<double> get _outSecondValueEvent => _secondValueEvent.stream;
 
 
 
   // Объем:
   final StreamController<double> _secondVolumeController = StreamController<double>();
-  final StreamController<MainBlocEvent> _secondVolumeEvent =
-  StreamController<MainBlocEvent>();
+  final StreamController<double> _secondVolumeEvent =
+  StreamController<double>();
 
   Sink<double> get _inSecondVolume => _secondVolumeController.sink;
   Stream<double> get outSecondVolume => _secondVolumeController.stream;
 
-  Sink<MainBlocEvent> get inSecondVolumeEvent => _secondVolumeEvent.sink;
-  Stream<MainBlocEvent> get _outSecondVolumeEvent => _secondVolumeEvent.stream;
+  Sink<double> get inSecondVolumeEvent => _secondVolumeEvent.sink;
+  Stream<double> get _outSecondVolumeEvent => _secondVolumeEvent.stream;
+
+
+
+  /*
+  *
+  * 3-Й НАПИТОК:
+  *
+  * */
+
+  // Крепость
+  final StreamController<double> _thirdValueController = StreamController<double>();
+  final StreamController<double> _thirdValueEvent =
+  StreamController<double>();
+
+  Sink<double> get _inThirdValue => _thirdValueController.sink;
+  Stream<double> get outThirdValue => _thirdValueController.stream;
+
+  Sink<double> get inThirdValueEvent => _thirdValueEvent.sink;
+  Stream<double> get _outThirdValueEvent => _thirdValueEvent.stream;
+
+
+
+  // Объем:
+  final StreamController<double> _thirdVolumeController = StreamController<double>();
+  final StreamController<double> _thirdVolumeEvent =
+  StreamController<double>();
+
+  Sink<double> get _inThirdVolume => _thirdVolumeController.sink;
+  Stream<double> get outThirdVolume => _thirdVolumeController.stream;
+
+  Sink<double> get inThirdVolumeEvent => _thirdVolumeEvent.sink;
+  Stream<double> get _outThirdVolumeEvent => _thirdVolumeEvent.stream;
+
+
+
+
+  /*
+  *
+  * ИТОГОВАЯ КРЕПОСТЬ:
+  *
+  * */
+
+  // Крепость
+  final StreamController<double> _resultController = StreamController<double>();
+  final StreamController<double> _resultEvent = StreamController<double>();
+
+  Sink<double> get _inResultValue => _resultController.sink;
+  Stream<double> get outResultValue => _resultController.stream;
+
+  Sink<double> get inResultEvent => _resultEvent.sink;
+  Stream<double> get _outResultEvent => _resultEvent.stream;
+
 
 
   MainBloc() {
-    _outEvent.listen(_handleEvent);
-    _outFirstVolumeEvent.listen(_handleEvent);
+    _outEvent.listen(_addFirstValue);
+    _outFirstVolumeEvent.listen(_addFirstVolume);
 
-    _outSecondValueEvent.listen(_handleEvent);
-    _outSecondVolumeEvent.listen(_handleEvent);
-  }
+    _outSecondValueEvent.listen(_addSecondValue);
+    _outSecondVolumeEvent.listen(_addSecondVolume);
 
-  // Альтернатива потоку с UI событиями
-  void onIncreaseFirstValue() {
-    _handleIncreaseFirstValue();
+    _outThirdValueEvent.listen(_addThirdValue);
+    _outThirdVolumeEvent.listen(_addThirdVolume);
+
+    _outResultEvent.listen(_makeResult);
   }
 
   @override
@@ -117,58 +169,64 @@ class MainBloc extends BlocBase {
     _firstVolumeEvent.close();
 
 
+    // 2-й напиток
+    _secondValueController.close();
+    _secondValueEvent.close();
+
+    _secondVolumeController.close();
+    _secondVolumeEvent.close();
+
+
+    // 3-й напиток
+    _thirdValueController.close();
+    _thirdValueEvent.close();
+
+    _thirdVolumeController.close();
+    _thirdVolumeEvent.close();
   }
 
-  void _handleEvent(MainBlocEvent event) {
-    switch (event) {
-
-      // 1-й напиток:
-      case MainBlocEvent.increaseFirstSliderValue:
-        _handleIncreaseFirstValue();
-        break;
-
-      case MainBlocEvent.increaseFirstSliderVolume:
-        _handleIncreaseFirstVolume();
-        break;
-
-      // 2-й напиток
-      case MainBlocEvent.increaseSecondSliderValue:
-        _handleIncreaseSecondValue();
-        break;
-
-      case MainBlocEvent.increaseSecondSliderVolume:
-        _handleIncreaseSecondVolume();
-        break;
-
-      default:
-        assert(false, 'Не реализовано другое!');
-        break;
-    }
+  void _addFirstValue(double value) {
+    _inFirstValue.add(value);
   }
 
-  // 1-й НАПИТОК:
-  // Увеличить значение крепости для 1-го напитка
-  void _handleIncreaseFirstValue() {
-    _currentSliderValue += 20;
-    _inFirstValue.add(_currentSliderValue);
-  }
-
-  void _handleIncreaseFirstVolume() {
-    _firstVolume += 20;
-    _inFirstVolume.add(_firstVolume);
+  void _addFirstVolume(double volume) {
+    _inFirstVolume.add(volume);
   }
 
 
-  // 2-й НАПИТОК:
-  // Увеличить значение крепости для 1-го напитка
-  void _handleIncreaseSecondValue() {
-    _secondSliderValue += 20;
-    _inSecondValue.add(_secondSliderValue);
+  void _addSecondValue(double value) {
+    _inSecondValue.add(value);
   }
 
-  void _handleIncreaseSecondVolume() {
-    _secondVolume += 20;
-    _inSecondVolume.add(_secondVolume);
+  void _addSecondVolume(double volume) {
+    _inSecondVolume.add(volume);
+  }
+
+
+  void _addThirdValue(double value) {
+    _inThirdValue.add(value);
+  }
+
+  void _addThirdVolume(double volume) {
+    _inThirdVolume.add(volume);
+  }
+
+  void _makeResult(double result_value) {
+    // final value1 = _currentSliderValue;
+    // final value2 = _secondSliderValue;
+    // final value3 = _thirdSliderValue;
+    //
+    // // Объемы:
+    // final vol1 = _firstVolume;
+    // final vol2 = _secondVolume;
+    // final vol3 = _thirdVolume;
+    // final total_vol = vol1 + vol2 + vol3;
+    //
+    // final result = (
+    //     (value1 * vol1) + (value2 * vol2) + (value3 * vol3)
+    // ) / total_vol;
+
+    _inResultValue.add(result_value);
   }
 
 }
