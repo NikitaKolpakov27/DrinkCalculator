@@ -304,23 +304,13 @@ class _NewScreenState extends State<NewScreen> {
   void calculate() {
     MainBloc? bloc = BlocProvider.of(_context);
 
-    final value1 = _currentSliderValue; // 40
-    final value2 = _secondSliderValue; // 0
-    final value3 = _thirdSliderValue;
+    final result = bloc?.getRes(
+        _currentSliderValue, _secondSliderValue, _thirdSliderValue,
+        _firstVolume, _secondVolume, _thirdVolume);
 
-    // Объемы:
-    final vol1 = _firstVolume;
-    final vol2 = _secondVolume;
-    final vol3 = _thirdVolume;
-    final total_vol = vol1 + vol2 + vol3;
-
-    final result = (
-        (value1 * vol1) + (value2 * vol2) + (value3 * vol3)
-    ) / total_vol;
-
-    bloc?.inResultEvent.add(result.roundToDouble());
+    bloc?.inResultEvent.add(result!.roundToDouble());
     setState(() {
-      _result = result.roundToDouble().toString();
+      _result = result!.roundToDouble().toString();
     });
   }
 

@@ -212,21 +212,17 @@ class MainBloc extends BlocBase {
   }
 
   void _makeResult(double result_value) {
-    // final value1 = _currentSliderValue;
-    // final value2 = _secondSliderValue;
-    // final value3 = _thirdSliderValue;
-    //
-    // // Объемы:
-    // final vol1 = _firstVolume;
-    // final vol2 = _secondVolume;
-    // final vol3 = _thirdVolume;
-    // final total_vol = vol1 + vol2 + vol3;
-    //
-    // final result = (
-    //     (value1 * vol1) + (value2 * vol2) + (value3 * vol3)
-    // ) / total_vol;
-
     _inResultValue.add(result_value);
+  }
+
+  double getRes(value1, value2, value3, vol1, vol2, vol3) {
+    final total_vol = vol1 + vol2 + vol3;
+
+    final result = (
+        (value1 * vol1) + (value2 * vol2) + (value3 * vol3)
+    ) / total_vol;
+
+    return result;
   }
 
 }
